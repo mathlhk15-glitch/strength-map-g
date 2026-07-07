@@ -221,7 +221,6 @@ function openWriteScreen(friend) {
 
   document.getElementById("write-target-number").textContent = friend.number + "번";
   document.getElementById("write-target-name").textContent = friend.name;
-  document.getElementById("write-target-career").textContent = friend.career ? "관심진로: " + friend.career : "";
 
   renderStrengthOptions(1);
   renderReasonOptions(1);
