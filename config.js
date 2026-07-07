@@ -15,7 +15,7 @@
 // 1. 학교명과 프로그램 제목
 // 예: "○○고등학교", "○○중학교", "○○초등학교"
 const SCHOOL_NAME = "창원경일여자고등학교";
-const PROGRAM_TITLE = "우리 반 롤링페이퍼";
+const PROGRAM_TITLE = "친구들이 발견한 나의 강점";
 
 // 2. Google Apps Script 웹앱 주소
 // Apps Script를 웹앱으로 배포한 뒤 발급받은 /exec 주소를 넣으세요.
