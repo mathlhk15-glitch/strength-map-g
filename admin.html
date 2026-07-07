@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<!--
+  우리 반 강점지도 - 관리자 화면 파일입니다.
+  학교명, 반 목록, GAS_URL 등은 config.js에서 수정하세요.
+  이 파일은 원칙적으로 수정하지 않습니다.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 반 강점지도 - 관리자</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: #f4f5f7;
+    padding: 20px;
+    color: #1f2937;
+  }
+  .login-box {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .login-box h1 {
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: #1e3a8a;
+  }
+  .sub-title {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+  }
+  .login-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  .login-box select, .login-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  .login-box button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .error-text { color: #dc2626; font-size: 13px; margin-top: 10px; }
+  .hidden { display: none !important; }
+
+  #result-area {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+  .student-card {
+    margin-bottom: 0;
+  }
+  @media (max-width: 640px) {
+    #result-area { grid-template-columns: 1fr; }
+  }
+  .student-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .student-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .student-section-title {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 10px 0 6px;
+  }
+  .strength-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+  }
+  .strength-row .name { font-weight: 600; }
+  .strength-row .count { color: #2563eb; }
+  .reason-tag-admin {
+    display: inline-block;
+    font-size: 11px;
+    background: #f1f5f9;
+    color: #4b5563;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin: 0 4px 4px 0;
+  }
+  .other-text-admin {
+    font-size: 12px;
+    color: #4b5563;
+    background: #f9fafb;
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+.message-list-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-admin {
+  font-size: 12px;
+  color: #1e3a8a;
+  background: #eff6ff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin: 4px 0;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+.message-admin.muted {
+  color: #6b7280;
+  background: #f9fafb;
+}
+  .top-bar {
+    max-width: 900px;
+    margin: 0 auto 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .top-bar select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #d1d5db;
+    font-size: 14px;
+  }
+  .logout-btn {
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .loading-text {
+    text-align: center;
+    color: #6b7280;
+    margin: 40px 0;
+    grid-column: 1 / -1;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .top-bar { display: none; }
+    #result-area {
+      max-width: 100%;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .student-card {
+      box-shadow: none;
+      border: 1px solid #d1d5db;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="login-screen" class="login-box">
+  <h1 id="admin-title">강점지도 관리자</h1>
+  <p id="admin-school-name" class="sub-title"></p>
+  <label for="admin-password">관리자 비밀번호</label>
+  <input type="password" id="admin-password" placeholder="비밀번호 입력">
+  <label for="admin-class">반 선택</label>
+  <select id="admin-class"></select>
+  <p id="admin-error" class="error-text hidden"></p>
+  <button id="btn-admin-login">결과 생성</button>
+</div>
+
+<div id="result-screen" class="hidden">
+  <div class="top-bar">
+    <select id="admin-class-switch"></select>
+    <button id="btn-admin-logout" class="logout-btn">반 변경</button>
+  </div>
+  <div id="result-area"></div>
+</div>
+
+<script src="config.js"></script>
+<script>
+function escapeHTML(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function apiGet(params) {
+  const query = new URLSearchParams(params).toString();
+  return fetch(GAS_URL + "?" + query).then(function (res) { return res.json(); });
+}
+
+let adminPassword = "";
+
+function initClassSelects() {
+  const opts = '<option value="">반 선택</option>' +
+    CLASS_LIST.map(function (c) { return '<option value="' + c + '">' + c + '반</option>'; }).join("");
+  document.getElementById("admin-class").innerHTML = opts;
+  document.getElementById("admin-class-switch").innerHTML = opts;
+}
+
+function loadClassResults(classNo) {
+  document.getElementById("result-area").innerHTML = '<p class="loading-text">불러오는 중...</p>';
+  apiGet({ action: "getAllResultsForAdmin", password: adminPassword, classNo: classNo })
+    .then(function (res) {
+      if (!res.ok) {
+        document.getElementById("result-area").innerHTML =
+          '<p class="loading-text">' + escapeHTML(res.message || "오류가 발생했습니다.") + '</p>';
+        return;
+      }
+      if (!res.data.generated || res.data.students.length === 0) {
+        document.getElementById("result-area").innerHTML =
+          '<p class="loading-text">아직 결과가 정리되지 않았습니다. generateResults를 먼저 실행하세요.</p>';
+        return;
+      }
+      renderAllStudents(res.data.students);
+    })
+    .catch(function () {
+      document.getElementById("result-area").innerHTML =
+        '<p class="loading-text">네트워크 오류가 발생했습니다.</p>';
+    });
+}
+
+function renderAllStudents(students) {
+  const html = students.map(function (s) {
+    const strengthRows = [1, 2, 3].map(function (n) {
+      const label = String(s['강점' + n + '위'] || '').trim();
+      const count = s['강점' + n + '위횟수'] || 0;
+      if (!label) return "";
+      return '<div class="strength-row"><span class="name">' + escapeHTML(label) +
+        '</span><span class="count">' + count + '번 선택</span></div>';
+    }).join("");
+
+    const reasonTags = [1, 2, 3].map(function (n) {
+      const label = String(s['주요이유' + n + '위'] || '').trim();
+      if (!label) return "";
+      return '<span class="reason-tag-admin">' + escapeHTML(label) + '</span>';
+    }).join("");
+
+    const otherStrength = String(s['기타강점모음'] || '').trim();
+const otherReason = String(s['기타이유모음'] || '').trim();
+
+const feedbacks = String(s['전체피드백모음'] || '').trim();
+const messages = String(s['한마디모음'] || '').trim();
+
+let feedbackList = [];
+if (feedbacks) {
+  if (feedbacks.indexOf("---FEEDBACK---") >= 0) {
+    feedbackList = feedbacks.split("---FEEDBACK---").filter(function (m) {
+      return m.trim();
+    });
+  } else {
+    feedbackList = feedbacks.split("\n").filter(function (m) {
+      return m.trim();
+    });
+  }
+}
+
+let messageList = [];
+if (messages) {
+  messageList = messages.split("\n").filter(function (m) {
+    return m.trim();
+  });
+}
+    let block = '<div class="student-card">';
+    block += '<div class="student-header">' + escapeHTML(s['번호']) + '번 ' + escapeHTML(s['이름']) + '</div>';
+    block += '<p class="student-section-title">강점 TOP3</p>' + strengthRows;
+    block += '<p class="student-section-title">친구들이 기억한 모습</p>' + reasonTags;
+
+    if (otherStrength) {
+      block += '<p class="student-section-title">친구들이 떠올린 이미지</p>';
+      block += '<div class="other-text-admin">' + escapeHTML(otherStrength) + '</div>';
+    }
+    if (otherReason) {
+      block += '<p class="student-section-title">기타 이유</p>';
+      block += '<div class="other-text-admin">' + escapeHTML(otherReason) + '</div>';
+    }
+    block += '<p class="student-section-title">친구들이 발견한 강점과 이유</p>';
+
+if (feedbackList.length > 0) {
+  block += '<div class="message-list-admin">';
+  block += feedbackList.map(function (m) {
+    return '<div class="message-admin">' +
+      escapeHTML(m.trim()).replace(/\n/g, '<br>') +
+      '</div>';
+  }).join("");
+  block += '</div>';
+} else {
+  block += '<div class="message-admin muted">아직 표시할 강점·이유 내용이 없습니다.</div>';
+}
+
+block += '<p class="student-section-title">친구들이 남긴 한마디</p>';
+
+if (messageList.length > 0) {
+  block += '<div class="message-list-admin">';
+  block += messageList.map(function (m) {
+    return '<div class="message-admin">' +
+      escapeHTML(m.trim()) +
+      '</div>';
+  }).join("");
+  block += '</div>';
+} else {
+  block += '<div class="message-admin muted">아직 표시할 한마디가 없습니다.</div>';
+}
+    block += '</div>';
+    return block;
+  }).join("");
+
+  document.getElementById("result-area").innerHTML = html || '<p class="loading-text">학생 데이터가 없습니다.</p>';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const adminTitleEl = document.getElementById("admin-title");
+  const adminSchoolEl = document.getElementById("admin-school-name");
+
+  if (adminTitleEl && typeof PROGRAM_TITLE !== "undefined") {
+    adminTitleEl.textContent = PROGRAM_TITLE + " 관리자";
+  }
+  if (adminSchoolEl && typeof SCHOOL_NAME !== "undefined") {
+    adminSchoolEl.textContent = SCHOOL_NAME;
+  }
+
+  initClassSelects();
+
+  document.getElementById("btn-admin-login").addEventListener("click", function () {
+    const password = document.getElementById("admin-password").value.trim();
+    const classNo = document.getElementById("admin-class").value;
+    const errorEl = document.getElementById("admin-error");
+    errorEl.classList.add("hidden");
+
+    if (!password || !classNo) {
+      errorEl.textContent = "비밀번호와 반을 모두 선택하세요.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    adminPassword = password;
+    document.getElementById("login-screen").classList.add("hidden");
+    document.getElementById("result-screen").classList.remove("hidden");
+    document.getElementById("admin-class-switch").value = classNo;
+    loadClassResults(classNo);
+  });
+
+  document.getElementById("admin-class-switch").addEventListener("change", function () {
+    loadClassResults(this.value);
+  });
+
+  document.getElementById("btn-admin-logout").addEventListener("click", function () {
+    document.getElementById("result-screen").classList.add("hidden");
+    document.getElementById("login-screen").classList.remove("hidden");
+    document.getElementById("admin-error").classList.add("hidden");
+  });
+});
+</script>
+</body>
+</html>

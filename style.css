@@ -1,0 +1,630 @@
+/* ===================== 기본 설정 ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+               "Pretendard", "Malgun Gothic", sans-serif;
+  background: #f4f5f7;
+  color: #1f2937;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 16px; /* iOS 자동 확대 방지 */
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background: #f4f5f7;
+}
+
+/* ===================== 화면 전환 ===================== */
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 20px 16px 100px;
+}
+.screen.active {
+  display: block;
+}
+
+/* ===================== 공통 카드 ===================== */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-top: 24px;
+}
+
+.center-card {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  color: #1e3a8a;
+}
+
+.subtitle {
+  font-size: 14px;
+  text-align: center;
+  color: #6b7280;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.notice-box {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #78350f;
+  margin-bottom: 24px;
+}
+
+/* ===================== 폼 요소 ===================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+select, input[type="text"], input[type="tel"], textarea {
+  width: 100%;
+  padding: 14px 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+}
+
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+textarea {
+  resize: none;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+/* ===================== 버튼 ===================== */
+.btn {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-large {
+  padding: 16px;
+  font-size: 17px;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+.btn-primary:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #374151;
+  margin-top: 10px;
+}
+
+.btn-text {
+  background: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px;
+  margin-top: 4px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-icon {
+  background: none;
+  color: #2563eb;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.admin-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 13px;
+  margin: 8px 0;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===================== 대시보드 ===================== */
+.dashboard-header {
+  background: #1e3a8a;
+  color: #fff;
+  padding: 18px 16px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+.user-info {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.user-info span {
+  opacity: 0.8;
+  margin-right: 6px;
+}
+.user-info strong {
+  font-size: 18px;
+}
+
+.progress-text {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #34d399;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.friend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.friend-card {
+  background: #e5e7eb;
+  border-radius: 14px;
+  padding: 16px 6px;
+  text-align: center;
+  font-weight: 700;
+  color: #4b5563;
+  position: relative;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.friend-card .f-number {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.friend-card .f-name {
+  font-size: 15px;
+}
+
+.friend-card.done {
+  background: #34d399;
+  color: #fff;
+}
+.friend-card.done .f-number {
+  color: #ecfdf5;
+}
+.friend-card.done::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 13px;
+}
+
+/* ===================== 하단 고정 버튼 ===================== */
+.bottom-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background: #f4f5f7;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+}
+
+.bottom-fixed-double {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===================== 작성 화면 ===================== */
+.write-header {
+  position: sticky;
+  top: 0;
+  background: #f4f5f7;
+  padding: 8px 0 12px;
+  z-index: 10;
+}
+
+.target-info {
+  margin-top: 6px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.target-info .f-number-label {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.target-info strong {
+  font-size: 19px;
+  color: #111827;
+}
+
+.career-badge {
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-left: auto;
+}
+
+.form-section {
+  margin-bottom: 26px;
+}
+
+.form-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count-badge {
+  background: #2563eb;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.optional-badge {
+  background: #e5e7eb;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.option-btn {
+  padding: 14px 8px;
+  background: #fff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.option-btn.selected {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.option-btn:disabled {
+  opacity: 0.35;
+}
+
+.other-input-wrap {
+  margin-top: 10px;
+}
+
+.char-counter {
+  text-align: right;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* ===================== 강점1/강점2 블록 구분 ===================== */
+.strength-block {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 14px;
+  border: 1.5px solid #e5e7eb;
+}
+
+.step-badge {
+  background: #1e3a8a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.reason-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.block-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 22px 0;
+}
+
+.helper-text {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* ===================== 로딩 오버레이 ===================== */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 100;
+  gap: 14px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===================== 오류 모달 ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+  padding: 0 20px;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+
+.error-modal-text {
+  font-size: 15px;
+  color: #374151;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+/* ===================== 완료 화면 ===================== */
+.done-icon {
+  width: 60px;
+  height: 60px;
+  background: #34d399;
+  color: #fff;
+  font-size: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.confirm-text {
+  font-size: 15px;
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 14px 0 22px;
+}
+
+/* ===================== 결과 화면 ===================== */
+.result-wrap {
+  padding-bottom: 30px;
+}
+
+.result-header {
+  margin: 24px 0 16px;
+  text-align: center;
+}
+
+.result-greeting-sub {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.result-greeting {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e3a8a;
+  line-height: 1.5;
+}
+
+.result-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.result-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.strength-card {
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.strength-card:last-child {
+  margin-bottom: 0;
+}
+
+.strength-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.strength-count {
+  font-size: 12px;
+  color: #1e40af;
+}
+
+.reason-tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #4b5563;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin: 0 6px 6px 0;
+}
+
+.result-tag-text {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.7;
+  background: #f9fafb;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-item {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.btn-more {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 600;
+}
