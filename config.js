@@ -14,21 +14,21 @@
 
 // 1. 학교명과 프로그램 제목
 // 예: "○○고등학교", "○○중학교", "○○초등학교"
-const SCHOOL_NAME = "○○학교";
-const PROGRAM_TITLE = "우리 반 강점지도";
+const SCHOOL_NAME = "창원경일여자고등학교";
+const PROGRAM_TITLE = "우리 반 롤링페이퍼";
 
 // 2. Google Apps Script 웹앱 주소
 // Apps Script를 웹앱으로 배포한 뒤 발급받은 /exec 주소를 넣으세요.
 // 주의: 이 주소를 바꾸지 않으면 기존 학교 구글시트로 저장됩니다.
-const GAS_URL = "https://script.google.com/macros/s/여기에_웹앱_배포주소를_넣으세요/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyHQmVQmUOlY70KEKOuvht1yywv5CQiFG7BTbFPtZMEjXtVJKE3dLdvWM67Lagw6JUb0Q/exec";
 
 // 3. 운영할 반 목록
 // 예: 1반~5반이면 ["1", "2", "3", "4", "5"]
-const CLASS_LIST = ["1", "2", "3", "4", "5"];
+const CLASS_LIST = ["1", "2", "3", "4", "5", "6"];
 
 // 4. 한 반의 최대 번호
 // 예: 최대 번호가 28번이면 28로 수정
-const MAX_STUDENT_NUMBER = 30;
+const MAX_STUDENT_NUMBER = 25;
 const NUMBER_LIST = Array.from({ length: MAX_STUDENT_NUMBER }, function (_, i) {
   return String(i + 1);
 });
